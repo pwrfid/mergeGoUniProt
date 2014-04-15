@@ -1,0 +1,22 @@
+# Prepping HelaMathias.csv
+# Convert the Copy.number to remove comma and then convert to number
+# Convert to Majority.protein.ID where remove the ;
+
+hela=read.csv("MathiasHela/HelaMathias.csv")
+
+# Always get the first protein ID from the list - call it as UniProt ID
+# Shows a single example
+unlist(strsplit(as.character(hela$Majority.protein.IDs[1]), ";"))[1]
+
+# Now to apply
+# Create function
+
+OneUniProt=function(x) {
+
+uniprot.id=unlist(strsplit(as.character(hela$Majority.protein.IDs[x]), ";"))[1]
+return(uniprot.id)
+
+}
+
+#mapply - Function, then critical to note the as.numeric (rownames argument)
+hela$UniProt=mapply(OneUniProt, as.numeric(rownames(hela)))
